@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f6f3ed;
+  --foreground: #172019;
+  --card: #fffdfa;
+  --card-foreground: #172019;
+  --primary: #0d5b46;
+  --primary-foreground: #f8fbf6;
+  --secondary: #e7ece2;
+  --secondary-foreground: #172019;
+  --muted: #ebe8df;
+  --muted-foreground: #5b675f;
+  --accent: #c47d2c;
+  --accent-foreground: #1d150b;
+  --border: #d8d4c8;
+  --input: #d8d4c8;
+  --ring: #0d5b46;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 35%, transparent);
+}
