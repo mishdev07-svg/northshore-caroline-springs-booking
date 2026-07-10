@@ -37,9 +37,46 @@ export function BookingForm() {
       className="grid gap-4 rounded-lg border border-border bg-card p-5 text-card-foreground shadow-sm sm:p-6"
       onSubmit={(event) => {
         event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+        const tracking = getTrackingSummary();
+        const body = [
+          "New booking request from the North Shore Caroline Springs booking page.",
+          "",
+          `Parent name: ${getFormValue(formData, "parentName")}`,
+          `Mobile: ${getFormValue(formData, "mobile")}`,
+          `Email: ${getFormValue(formData, "email")}`,
+          `Child name: ${getFormValue(formData, "childName")}`,
+          `Year level: ${getFormValue(formData, "yearLevel")}`,
+          `Suburb: ${getFormValue(formData, "suburb")}`,
+          `Main interest: ${getFormValue(formData, "interest")}`,
+          `Preferred next step: ${getFormValue(formData, "nextStep")}`,
+          `Preferred days/times: ${getFormValue(formData, "preferredTime")}`,
+          "",
+          "Consent: Parent ticked consent to be contacted by phone, SMS, or email.",
+          tracking ? `Source: ${tracking}` : "Source: direct or unknown",
+        ].join("\n");
+        const subject = encodeURIComponent(
+          "Free assessment booking request - North Shore Caroline Springs"
+        );
+        window.location.href = `mailto:carolinesprings@north-shore.com.au?subject=${subject}&body=${encodeURIComponent(
+          body
+        )}`;
         setSubmitted(true);
       }}
     >
+      <div>
+        <p className="text-sm font-semibold uppercase tracking-[0.08em] text-primary">
+          Response target: same day
+        </p>
+        <h3 className="mt-2 text-2xl font-semibold leading-tight">
+          Request a free assessment
+        </h3>
+        <p className="mt-2 text-sm leading-6 text-muted-foreground">
+          This opens a pre-filled email to the Caroline Springs campus so the
+          team can confirm a suitable time.
+        </p>
+      </div>
+
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label="Parent name" htmlFor="parent-name">
           <input
@@ -159,13 +196,13 @@ export function BookingForm() {
         type="submit"
         className="min-h-12 rounded-md bg-primary px-5 py-3 text-base font-semibold text-primary-foreground transition hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 active:scale-[0.99]"
       >
-        Book A Free Assessment
+        Send Booking Request
       </button>
 
       <p className="text-sm leading-6 text-muted-foreground" aria-live="polite">
         {submitted
-          ? "Thank you. North Shore Coaching College Caroline Springs will contact you shortly to confirm your assessment or trial class time. If your enquiry is urgent, call 0403 474 343."
-          : "Free trial classes are available by booking. Urgent enquiries can call 0403 474 343."}
+          ? "Your email app should now open with the booking request. Please send it so the campus receives your details. If your enquiry is urgent, call 0403 474 343."
+          : "Urgent enquiries can call 0403 474 343. Free trial classes are available by booking for families close to enrolment."}
       </p>
     </form>
   );
@@ -186,4 +223,32 @@ function Field({
       {children}
     </label>
   );
+}
+
+function getFormValue(formData: FormData, key: string) {
+  const value = formData.get(key);
+  return typeof value === "string" ? value.trim() : "";
+}
+
+function getTrackingSummary() {
+  if (typeof window === "undefined") {
+    return "";
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  const trackingKeys = [
+    "utm_source",
+    "utm_medium",
+    "utm_campaign",
+    "utm_content",
+    "utm_term",
+  ];
+
+  return trackingKeys
+    .map((key) => {
+      const value = params.get(key);
+      return value ? `${key}=${value}` : "";
+    })
+    .filter(Boolean)
+    .join(", ");
 }

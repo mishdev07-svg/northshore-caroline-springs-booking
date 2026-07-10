@@ -20,6 +20,13 @@ const programs = [
   },
 ];
 
+const urgencyItems = [
+  "School holidays end Friday 10 July",
+  "Victorian Term 3 starts Monday 13 July",
+  "Sunday classes resume 19 July",
+  "$50 early bird off until 25 July",
+];
+
 const schedule = [
   "Saturday: Year 4 and Years 9-10",
   "Sunday 9:30am-2:00pm: Prep-Year 7, Scholarship Preparation, Selective Entry Preparation",
@@ -74,18 +81,30 @@ export function BookingLandingPage() {
         />
         <div className="absolute inset-0 bg-foreground/60" />
         <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col gap-7 text-primary-foreground">
-          <p className="max-w-2xl text-base font-semibold">
-            Term 3 enrolments are open at Lakeview Senior College
+          <p className="max-w-2xl text-base font-semibold text-primary-foreground/90">
+            Book this weekend for Term 3 at Lakeview Senior College
           </p>
           <div className="grid gap-6 lg:grid-cols-[1fr_360px] lg:items-end">
             <div className="max-w-3xl">
               <h1 className="text-balance text-4xl font-semibold leading-tight sm:text-5xl lg:text-6xl">
-                North Shore Caroline Springs
+                Free Term 3 learning assessment
               </h1>
               <p className="mt-5 max-w-2xl text-pretty text-lg leading-8 text-primary-foreground/88">
-                Book a free assessment or ask about a free trial class for Term
-                3 tutoring, selective preparation, and scholarship preparation.
+                Understand where your child needs support before the term gets
+                busy. North Shore Caroline Springs offers structured tutoring,
+                selective preparation, and scholarship preparation taught by
+                qualified teachers.
               </p>
+              <div className="mt-6 grid max-w-2xl gap-2 sm:grid-cols-2">
+                {urgencyItems.map((item) => (
+                  <p
+                    className="rounded-md bg-primary-foreground/12 px-3 py-2 text-sm font-semibold text-primary-foreground"
+                    key={item}
+                  >
+                    {item}
+                  </p>
+                ))}
+              </div>
             </div>
             <div className="grid gap-3 sm:max-w-sm lg:justify-self-end">
               <a
@@ -95,10 +114,10 @@ export function BookingLandingPage() {
                 Book A Free Assessment
               </a>
               <a
-                href="#booking"
+                href="tel:0403474343"
                 className="min-h-12 rounded-md border border-primary-foreground/45 px-5 py-3 text-center text-base font-semibold text-primary-foreground transition hover:bg-primary-foreground/10 focus:outline-none focus:ring-2 focus:ring-primary-foreground focus:ring-offset-2 focus:ring-offset-primary active:scale-[0.99]"
               >
-                Ask About A Free Trial Class
+                Call 0403 474 343
               </a>
             </div>
           </div>
@@ -107,9 +126,9 @@ export function BookingLandingPage() {
 
       <section className="border-b border-border bg-card">
         <div className="mx-auto grid max-w-7xl gap-5 px-4 py-6 sm:grid-cols-3 sm:px-6 lg:px-8">
-          <Metric label="Founded" value="1991" />
-          <Metric label="National network" value="66 campuses" />
-          <Metric label="Early bird" value="$50 off until 25 July" />
+          <Metric label="First step" value="Free assessment" />
+          <Metric label="Teachers" value="Qualified staff" />
+          <Metric label="Early bird" value="$50 off to 25 July" />
         </div>
       </section>
 
@@ -128,6 +147,12 @@ export function BookingLandingPage() {
               free trial class and experience the North Shore learning
               environment before enrolling.
             </p>
+            <a
+              href="#booking"
+              className="mt-6 inline-flex min-h-11 items-center rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+            >
+              Request An Assessment
+            </a>
           </div>
           <div className="grid gap-4 sm:grid-cols-3">
             {programs.map((program) => (
@@ -158,14 +183,19 @@ export function BookingLandingPage() {
             </h2>
             <p className="mt-4 text-base leading-7 text-muted-foreground">
               For Term 3 enrolments at North Shore Coaching College Caroline
-              Springs. Complete the form and the local team will confirm the
-              best assessment or trial class time.
+              Springs. Complete the form and your email app will open with the
+              request ready to send to the local campus.
             </p>
             <div className="mt-8 grid gap-4 border-l-2 border-primary pl-5">
               <Step title="1. Tell us the year level" />
-              <Step title="2. Choose assessment, trial, or call first" />
-              <Step title="3. We confirm the booking time" />
+              <Step title="2. Send the pre-filled booking email" />
+              <Step title="3. The campus confirms the assessment time" />
             </div>
+            <p className="mt-6 rounded-md bg-card px-4 py-3 text-sm leading-6 text-muted-foreground">
+              Free trial classes are best for families who are already close to
+              enrolling. If you are unsure what your child needs, start with the
+              free assessment.
+            </p>
           </div>
           <BookingForm />
         </div>
