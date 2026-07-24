@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { desc } from "drizzle-orm";
 
@@ -46,7 +47,7 @@ export default async function LeadsPage({
               Assessment leads
             </h1>
             <p className="mt-3 text-base leading-7 text-muted-foreground">
-              {newLeadCount} new request{newLeadCount === 1 ? "" : "s"} ·{" "}
+              {newLeadCount} new request{newLeadCount === 1 ? "" : "s"} |{" "}
               {rows.length} shown
             </p>
           </div>
@@ -57,12 +58,12 @@ export default async function LeadsPage({
             >
               Export CSV
             </a>
-            <a
+            <Link
               href="/"
               className="inline-flex min-h-11 items-center justify-center rounded-[4px] border border-border bg-card px-4 text-sm font-bold transition hover:border-foreground/40 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
             >
               View website
-            </a>
+            </Link>
           </div>
         </header>
 

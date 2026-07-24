@@ -39,3 +39,11 @@ next-env.d.ts
 /dist/
 /.vinext/
 /.wrangler/
+
+# local previews and Sites packaging
+/.sites-package-*/
+/.sites-tmp/
+/artifacts/
+/browser-profile*/
+/playwright-report/
+/test-results/

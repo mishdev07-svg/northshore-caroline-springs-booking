@@ -9,7 +9,16 @@ const eslintConfig = defineConfig([
   globalIgnores([
     // Default ignores of eslint-config-next:
     ".next/**",
+    ".sites-package-*/**",
+    ".sites-tmp/**",
+    ".vinext/**",
+    ".wrangler/**",
+    "artifacts/**",
+    "browser-profile*/**",
+    "dist/**",
     "out/**",
+    "playwright-report/**",
+    "test-results/**",
     "build/**",
     "next-env.d.ts",
   ]),
