@@ -31,15 +31,26 @@ npm run build
 
 ## Runtime Configuration
 
-The production Worker needs:
+The production Worker automatically provisions its D1 database from
+`wrangler.jsonc`. It also needs:
 
-- a Cloudflare D1 binding named `DB`
 - a secret named `ADMIN_TOKEN`
 - optional `NEXT_PUBLIC_GA_MEASUREMENT_ID`
 - optional `NEXT_PUBLIC_META_PIXEL_ID`
 
 The private lead dashboard is available at `/admin/leads/<ADMIN_TOKEN>`.
 Never commit the token or analytics credentials.
+
+## Deployment
+
+```bash
+npm exec wrangler login
+npm run deploy
+npm exec wrangler secret put ADMIN_TOKEN
+```
+
+Run the secret command after the first deployment, then redeploy once so the
+private dashboard is ready alongside the public site.
 
 ## Main Paths
 
