@@ -2,10 +2,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { desc } from "drizzle-orm";
 
-import { chatGPTSignOutPath } from "@/app/chatgpt-auth";
 import { ensureLeadsSchema, getDb } from "@/db";
 import { leads } from "@/db/schema";
-import { requireAdmin } from "@/lib/admin-auth";
+import { isValidAdminToken } from "@/lib/admin-token";
 
 export const dynamic = "force-dynamic";
 
@@ -17,9 +16,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function LeadsPage() {
-  const admin = await requireAdmin("/admin/leads");
-  if (!admin) notFound();
+export default async function LeadsPage({
+  params,
+}: {
+  params: Promise<{ token: string }>;
+}) {
+  const { token } = await params;
+  if (!isValidAdminToken(token)) notFound();
 
   await ensureLeadsSchema();
   const db = getDb();
@@ -49,16 +52,16 @@ export default async function LeadsPage() {
           </div>
           <div className="flex flex-wrap gap-3">
             <a
-              href="/api/admin/leads/export"
+              href={`/api/admin/leads/export/${encodeURIComponent(token)}`}
               className="inline-flex min-h-11 items-center justify-center rounded-[4px] bg-primary px-4 text-sm font-bold text-primary-foreground transition hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
             >
               Export CSV
             </a>
             <a
-              href={chatGPTSignOutPath("/")}
+              href="/"
               className="inline-flex min-h-11 items-center justify-center rounded-[4px] border border-border bg-card px-4 text-sm font-bold transition hover:border-foreground/40 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
             >
-              Sign out
+              View website
             </a>
           </div>
         </header>

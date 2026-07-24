@@ -2,11 +2,14 @@ import { desc } from "drizzle-orm";
 
 import { ensureLeadsSchema, getDb } from "@/db";
 import { leads } from "@/db/schema";
-import { getAdmin } from "@/lib/admin-auth";
+import { isValidAdminToken } from "@/lib/admin-token";
 
-export async function GET() {
-  const admin = await getAdmin();
-  if (!admin) {
+export async function GET(
+  _request: Request,
+  context: { params: Promise<{ token: string }> },
+) {
+  const { token } = await context.params;
+  if (!isValidAdminToken(token)) {
     return Response.json({ error: "Not authorised." }, { status: 403 });
   }
 
