@@ -5,10 +5,11 @@ Springs. It includes:
 
 - a general Prep to Year 10 tutoring landing page
 - a dedicated selective-school preparation page
+- a dedicated scholarship-preparation page
 - a mobile-first enquiry form with campaign attribution
 - Cloudflare D1 lead storage
 - a token-protected lead dashboard and CSV export
-- Google Analytics and Meta Pixel hooks
+- Google Analytics, Google Ads conversion, website-call, and Meta Pixel hooks
 - local SEO metadata, schema, sitemap, and social sharing artwork
 
 ## Local Development
@@ -36,6 +37,9 @@ The production Worker automatically provisions its D1 database from
 
 - a secret named `ADMIN_TOKEN`
 - optional `NEXT_PUBLIC_GA_MEASUREMENT_ID`
+- optional `NEXT_PUBLIC_GOOGLE_ADS_ID`
+- optional `NEXT_PUBLIC_GOOGLE_ADS_LEAD_LABEL`
+- optional `NEXT_PUBLIC_GOOGLE_ADS_CALL_LABEL`
 - optional `NEXT_PUBLIC_META_PIXEL_ID`
 
 The private lead dashboard is available at `/admin/leads/<ADMIN_TOKEN>`.
@@ -55,6 +59,9 @@ private dashboard is ready alongside the public site.
 ## Main Paths
 
 - `/` - tutoring and assessment funnel
+- `/tutoring-caroline-springs` - Google Search tutoring landing page
 - `/selective-school-preparation-caroline-springs` - selective preparation
+- `/scholarship-preparation-caroline-springs` - scholarship preparation
+- `/thank-you` - post-enquiry confirmation page
 - `/api/leads` - lead capture endpoint
 - `/admin/leads/<ADMIN_TOKEN>` - private lead dashboard

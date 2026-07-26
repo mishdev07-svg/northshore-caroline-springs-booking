@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 
 const yearLevels = [
@@ -37,6 +38,7 @@ export function BookingForm({
   defaultInterest = "Not sure yet",
   sourceLabel = "general",
 }: BookingFormProps) {
+  const router = useRouter();
   const [status, setStatus] = useState<FormStatus>("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const [startedAt] = useState(() => Date.now());
@@ -57,6 +59,8 @@ export function BookingForm({
         </p>
         <a
           href="tel:0403474343"
+          data-track-event="phone_clicked"
+          data-track-location="form_success"
           className="mt-7 inline-flex min-h-12 w-full items-center justify-center rounded-[4px] bg-primary px-5 text-base font-bold text-primary-foreground transition hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
         >
           Call 0403 474 343
@@ -99,21 +103,61 @@ export function BookingForm({
         }),
       });
 
-      const result = (await response.json()) as { error?: string };
+      const result = (await response.json()) as {
+        error?: string;
+        reference?: number;
+      };
       if (!response.ok) {
         throw new Error(result.error || "The request could not be saved.");
       }
 
-      window.dataLayer?.push({
-        event: "generate_lead",
+      const interest = getFormValue(formData, "interest");
+      const leadEvent = {
         lead_type: getFormValue(formData, "interest"),
         page_type: sourceLabel,
-      });
+        transaction_id: result.reference ? String(result.reference) : "",
+      };
+
+      if (typeof window.gtag === "function") {
+        window.gtag("event", "generate_lead", leadEvent);
+      } else {
+        window.dataLayer?.push({
+          event: "generate_lead",
+          ...leadEvent,
+        });
+      }
       window.fbq?.("track", "Lead", {
-        content_name: getFormValue(formData, "interest"),
+        content_name: interest,
       });
 
       setStatus("success");
+
+      let hasRedirected = false;
+      const showConfirmation = () => {
+        if (hasRedirected) return;
+        hasRedirected = true;
+        router.push("/thank-you");
+      };
+
+      const googleAdsId = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID;
+      const googleAdsLeadLabel =
+        process.env.NEXT_PUBLIC_GOOGLE_ADS_LEAD_LABEL;
+
+      if (
+        typeof window.gtag === "function" &&
+        googleAdsId &&
+        googleAdsLeadLabel
+      ) {
+        window.gtag("event", "conversion", {
+          send_to: `${googleAdsId}/${googleAdsLeadLabel}`,
+          transaction_id: result.reference ? String(result.reference) : "",
+          event_callback: showConfirmation,
+          event_timeout: 1200,
+        });
+        window.setTimeout(showConfirmation, 1300);
+      } else {
+        showConfirmation();
+      }
     } catch (error) {
       setErrorMessage(
         error instanceof Error
@@ -256,7 +300,12 @@ export function BookingForm({
           role="alert"
         >
           {errorMessage} Call{" "}
-          <a className="text-primary underline" href="tel:0403474343">
+          <a
+            className="text-primary underline"
+            href="tel:0403474343"
+            data-track-event="phone_clicked"
+            data-track-location="form_error"
+          >
             0403 474 343
           </a>
           .
@@ -275,7 +324,12 @@ export function BookingForm({
 
       <p className="text-center text-sm leading-6 text-muted-foreground">
         Prefer to speak now?{" "}
-        <a className="font-bold text-foreground hover:text-primary" href="tel:0403474343">
+        <a
+          className="font-bold text-foreground hover:text-primary"
+          href="tel:0403474343"
+          data-track-event="phone_clicked"
+          data-track-location="form"
+        >
           Call 0403 474 343
         </a>
       </p>
@@ -307,18 +361,33 @@ function getFormValue(formData: FormData, key: string) {
 
 function getTracking() {
   const params = new URLSearchParams(window.location.search);
+  const stored = readStoredCampaign();
+
   return {
-    utmSource: params.get("utm_source") || "",
-    utmMedium: params.get("utm_medium") || "",
-    utmCampaign: params.get("utm_campaign") || "",
-    utmContent: params.get("utm_content") || "",
-    utmTerm: params.get("utm_term") || "",
+    utmSource: params.get("utm_source") || stored.utm_source || "",
+    utmMedium: params.get("utm_medium") || stored.utm_medium || "",
+    utmCampaign: params.get("utm_campaign") || stored.utm_campaign || "",
+    utmContent: params.get("utm_content") || stored.utm_content || "",
+    utmTerm: params.get("utm_term") || stored.utm_term || "",
   };
+}
+
+function readStoredCampaign(): Partial<Record<string, string>> {
+  try {
+    const stored = window.sessionStorage.getItem("northshore_campaign");
+    return stored
+      ? (JSON.parse(stored) as Partial<Record<string, string>>)
+      : {};
+  } catch {
+    return {};
+  }
 }
 
 declare global {
   interface Window {
+    __northshoreTrackingBound?: boolean;
     dataLayer?: Array<Record<string, unknown>>;
     fbq?: (command: string, event: string, params?: Record<string, unknown>) => void;
+    gtag?: (...args: unknown[]) => void;
   }
 }

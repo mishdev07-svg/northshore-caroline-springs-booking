@@ -8,18 +8,21 @@ const programs = [
     title: "Prep-Year 10 tutoring",
     description:
       "Structured tutoring from Prep to Year 10 for stronger foundations, confidence, and study habits.",
+    href: "/tutoring-caroline-springs",
   },
   {
     number: "02",
     title: "Selective School Preparation",
     description:
       "Steady, structured preparation with additional workshops provided throughout the week as students get closer to the exam.",
+    href: "/selective-school-preparation-caroline-springs",
   },
   {
     number: "03",
     title: "Scholarship Preparation",
     description:
       "Structured guidance for families exploring scholarship pathways, without unrealistic outcome promises.",
+    href: "/scholarship-preparation-caroline-springs",
   },
 ];
 
@@ -74,37 +77,83 @@ const faqs = [
   },
 ];
 
-type LandingVariant = "general" | "selective";
+type LandingVariant = "general" | "selective" | "scholarship";
 
 export function BookingLandingPage({
   variant = "general",
+  canonicalPath,
 }: {
   variant?: LandingVariant;
+  canonicalPath?: string;
 }) {
   const isSelective = variant === "selective";
+  const isScholarship = variant === "scholarship";
   const hero = isSelective
     ? {
-        eyebrow: "Selective School Preparation · Caroline Springs",
+        eyebrow: "Selective School Preparation | Caroline Springs",
         title: "Year 7 selective preparation for 2028 entry.",
         description:
           "Build exam-ready thinking steadily with a structured local program, qualified teachers, and additional workshops as students get closer to the exam.",
         detail:
           "Start with a free initial assessment. No outcome guarantees and no enrolment commitment.",
       }
-    : {
-        eyebrow: "North Shore Caroline Springs · Lakeview Senior College",
-        title: "Tutoring in Caroline Springs that starts with a clear plan.",
+    : isScholarship
+      ? {
+          eyebrow: "Scholarship Preparation | Caroline Springs",
+          title: "Scholarship preparation built around steady progress.",
+          description:
+            "Give your child a structured preparation pathway with qualified teachers, consistent practice, and a clear local starting point.",
+          detail:
+            "Start with a free initial assessment. No outcome guarantees and no enrolment commitment.",
+        }
+      : {
+          eyebrow: "North Shore Caroline Springs | Lakeview Senior College",
+          title: "Tutoring in Caroline Springs that starts with a clear plan.",
+          description:
+            "Book a free initial assessment to understand where your child needs support and which structured program fits best.",
+          detail:
+            "Prep-Year 10 tutoring, Selective School Preparation and Scholarship Preparation.",
+        };
+
+  const pagePath =
+    canonicalPath ??
+    (isSelective
+      ? "/selective-school-preparation-caroline-springs"
+      : isScholarship
+        ? "/scholarship-preparation-caroline-springs"
+        : "/");
+  const pathwaySection = isSelective
+    ? {
+        eyebrow: "A steady preparation pathway",
+        title: "Build the skills before exam pressure arrives.",
         description:
-          "Book a free initial assessment to understand where your child needs support and which structured program fits best.",
-        detail:
-          "Prep-Year 10 tutoring, Selective School Preparation and Scholarship Preparation.",
-      };
+          "Year 7 is a practical time to begin structured preparation for Year 9 selective entry. Students build reasoning, reading, writing and problem-solving habits, with additional workshops provided throughout the week as the exam approaches.",
+        href: "#booking",
+        cta: "Start with the free assessment",
+      }
+    : isScholarship
+      ? {
+          eyebrow: "A practical scholarship pathway",
+          title: "Prepare consistently without outcome promises.",
+          description:
+            "Scholarship pathways are competitive. North Shore Caroline Springs provides structured guidance, qualified teachers and consistent practice so families can begin with a clear, realistic preparation plan.",
+          href: "#booking",
+          cta: "Start with the free assessment",
+        }
+      : {
+          eyebrow: "Year 7 families",
+          title: "Planning for 2028 selective entry?",
+          description:
+            "Year 7 is a practical time to begin structured preparation for Year 9 selective entry. Students build reasoning, reading, writing and problem-solving habits, with additional workshops provided throughout the week as the exam approaches.",
+          href: "/selective-school-preparation-caroline-springs",
+          cta: "Explore selective preparation",
+        };
 
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "EducationalOrganization",
     name: "North Shore Coaching College Caroline Springs",
-    url: "https://northshore-caroline-springs-booking.northshore-6627.chatgpt-team.site",
+    url: `https://northshore-caroline-springs-booking.northshore-6627.chatgpt-team.site${pagePath}`,
     telephone: "+61 403 474 343",
     email: "carolinesprings@north-shore.com.au",
     foundingDate: "1991",
@@ -140,7 +189,10 @@ export function BookingLandingPage({
   };
 
   return (
-    <main id="top" className="min-h-screen bg-background text-foreground">
+    <main
+      id="top"
+      className="min-h-screen bg-background pb-[calc(76px+env(safe-area-inset-bottom))] text-foreground sm:pb-0"
+    >
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -155,8 +207,8 @@ export function BookingLandingPage({
       </a>
 
       <p className="bg-primary px-4 py-3 text-center text-sm font-bold leading-5 text-primary-foreground">
-        Term 3 is underway. New students can still join and pay only for the
-        remaining lessons.
+        Start with a free initial assessment. New students can join during term
+        with pro-rata fees for the remaining lessons.
       </p>
 
       <header className="border-b border-border bg-card">
@@ -184,12 +236,17 @@ export function BookingLandingPage({
           <div className="flex shrink-0 items-center gap-5">
             <a
               href="tel:0403474343"
+              data-track-event="phone_clicked"
+              data-track-location="header"
               className="hidden text-sm font-bold transition-colors hover:text-primary focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-4 sm:inline"
             >
               0403 474 343
             </a>
             <a
               href="#booking"
+              data-track-event="cta_clicked"
+              data-track-label="Book free assessment"
+              data-track-location="header"
               className="inline-flex min-h-11 items-center justify-center rounded-[4px] bg-primary px-3 text-sm font-bold text-primary-foreground transition hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-4 active:translate-y-px sm:px-5"
             >
               <span className="sm:hidden">Book</span>
@@ -225,12 +282,17 @@ export function BookingLandingPage({
             <div className="mt-7 flex max-w-xl flex-col gap-3 sm:flex-row">
               <a
                 href="#booking"
+                data-track-event="cta_clicked"
+                data-track-label="Book my free assessment"
+                data-track-location="hero"
                 className="inline-flex min-h-12 items-center justify-center rounded-[4px] bg-primary px-5 text-sm font-bold text-primary-foreground transition hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-foreground active:translate-y-px"
               >
                 Book my free assessment
               </a>
               <a
                 href="tel:0403474343"
+                data-track-event="phone_clicked"
+                data-track-location="hero"
                 className="inline-flex min-h-12 items-center justify-center rounded-[4px] border border-white bg-white px-5 text-sm font-bold text-foreground transition hover:bg-white/90 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-foreground active:translate-y-px"
               >
                 Call the Caroline Springs campus
@@ -294,6 +356,17 @@ export function BookingLandingPage({
                     <p className="mt-2 text-sm leading-6 text-muted-foreground sm:text-base sm:leading-7">
                       {program.description}
                     </p>
+                    {variant === "general" ? (
+                      <a
+                        href={program.href}
+                        data-track-event="service_link_clicked"
+                        data-track-label={program.title}
+                        data-track-location="programs"
+                        className="mt-3 inline-flex min-h-11 items-center text-sm font-bold text-primary underline decoration-primary/35 underline-offset-4 transition hover:decoration-primary focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-4"
+                      >
+                        View this program
+                      </a>
+                    ) : null}
                   </div>
                 </article>
               ))}
@@ -305,36 +378,25 @@ export function BookingLandingPage({
           <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-center lg:gap-20">
             <div>
               <p className="text-xs font-bold uppercase leading-5 text-primary">
-                {isSelective ? "A steady preparation pathway" : "Year 7 families"}
+                {pathwaySection.eyebrow}
               </p>
               <h2 className="mt-3 font-display text-[36px] font-semibold leading-[1.05] tracking-normal text-balance sm:text-[46px]">
-                {isSelective
-                  ? "Build the skills before exam pressure arrives."
-                  : "Planning for 2028 selective entry?"}
+                {pathwaySection.title}
               </h2>
             </div>
             <div>
               <p className="max-w-2xl text-base leading-7 text-muted-foreground">
-                Year 7 is a practical time to begin structured preparation for
-                Year 9 selective entry. Students build reasoning, reading,
-                writing and problem-solving habits, with additional workshops
-                provided throughout the week as the exam approaches.
+                {pathwaySection.description}
               </p>
-              {!isSelective ? (
-                <a
-                  href="/selective-school-preparation-caroline-springs"
-                  className="mt-5 inline-flex min-h-11 items-center justify-center rounded-[4px] border border-foreground bg-foreground px-5 text-sm font-bold text-white transition hover:bg-foreground/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                >
-                  Explore selective preparation
-                </a>
-              ) : (
-                <a
-                  href="#booking"
-                  className="mt-5 inline-flex min-h-11 items-center justify-center rounded-[4px] bg-primary px-5 text-sm font-bold text-primary-foreground transition hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                >
-                  Start with the free assessment
-                </a>
-              )}
+              <a
+                href={pathwaySection.href}
+                data-track-event="cta_clicked"
+                data-track-label={pathwaySection.cta}
+                data-track-location="pathway"
+                className="mt-5 inline-flex min-h-11 items-center justify-center rounded-[4px] bg-primary px-5 text-sm font-bold text-primary-foreground transition hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+              >
+                {pathwaySection.cta}
+              </a>
             </div>
           </div>
         </section>
@@ -348,7 +410,9 @@ export function BookingLandingPage({
               <h2 className="mt-3 max-w-xl font-display text-[38px] font-semibold leading-[1.05] tracking-normal text-balance sm:text-[48px]">
                 {isSelective
                   ? "Find the right selective preparation starting point."
-                  : "Tell us about your child. We will confirm the next step."}
+                  : isScholarship
+                    ? "Find the right scholarship preparation starting point."
+                    : "Tell us about your child. We will confirm the next step."}
               </h2>
               <p className="mt-5 max-w-xl text-base leading-7 text-white/72">
                 This request goes directly to the North Shore Caroline Springs
@@ -364,7 +428,9 @@ export function BookingLandingPage({
               defaultInterest={
                 isSelective
                   ? "Selective School Preparation"
-                  : "Not sure yet"
+                  : isScholarship
+                    ? "Scholarship Preparation"
+                    : "Not sure yet"
               }
               sourceLabel={variant}
             />
@@ -389,6 +455,8 @@ export function BookingLandingPage({
                 href="https://www.google.com/maps/search/?api=1&query=Lakeview+Senior+College+College+Street+Caroline+Springs+VIC+3023"
                 target="_blank"
                 rel="noreferrer"
+                data-track-event="directions_clicked"
+                data-track-location="location"
                 className="mt-6 inline-flex min-h-11 items-center rounded-[4px] bg-primary px-5 text-sm font-bold text-primary-foreground transition hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-4 active:translate-y-px"
               >
                 Get directions
@@ -448,11 +516,16 @@ export function BookingLandingPage({
               <h2 className="mt-2 max-w-3xl font-display text-[36px] font-semibold leading-[1.05] tracking-normal text-balance sm:text-[44px]">
                 {isSelective
                   ? "Start preparing before the exam feels close."
-                  : "It is not too late to make Term 3 count."}
+                  : isScholarship
+                    ? "Begin with a clear, realistic preparation plan."
+                    : "Give your child a clearer learning starting point."}
               </h2>
             </div>
             <a
               href="#booking"
+              data-track-event="cta_clicked"
+              data-track-label="Book my free assessment"
+              data-track-location="final"
               className="inline-flex min-h-12 shrink-0 items-center justify-center rounded-[4px] bg-white px-6 text-sm font-bold text-foreground transition hover:bg-white/90 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary active:translate-y-px"
             >
               Book my free assessment
@@ -462,7 +535,7 @@ export function BookingLandingPage({
       </div>
 
       <footer className="border-t border-border bg-card px-4 py-8 sm:px-6 lg:px-8">
-        <div className="mx-auto flex max-w-7xl flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mx-auto grid max-w-7xl gap-7 md:grid-cols-[1fr_auto_auto] md:items-end md:gap-10">
           <div className="flex items-center gap-3">
             <Image
               src="/images/north-shore-logo.png"
@@ -476,8 +549,19 @@ export function BookingLandingPage({
               Caroline Springs Campus
             </p>
           </div>
-          <div className="text-sm leading-6 sm:text-right">
-            <a className="font-bold hover:text-primary" href="tel:0403474343">
+          <div className="text-sm leading-6">
+            <p className="font-bold">Lakeview Senior College</p>
+            <p className="text-muted-foreground">
+              College Street, Caroline Springs VIC 3023
+            </p>
+          </div>
+          <div className="text-sm leading-6 md:text-right">
+            <a
+              className="font-bold hover:text-primary"
+              href="tel:0403474343"
+              data-track-event="phone_clicked"
+              data-track-location="footer"
+            >
               0403 474 343
             </a>
             <a
@@ -488,7 +572,51 @@ export function BookingLandingPage({
             </a>
           </div>
         </div>
+        <div className="mx-auto mt-7 flex max-w-7xl flex-col gap-3 border-t border-border pt-5 text-xs leading-5 text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+          <p>Copyright 2026 North Shore Coaching College Caroline Springs.</p>
+          <div className="flex flex-wrap gap-x-5 gap-y-2">
+            <a
+              href="https://www.north-shore.com.au/privacy-policy/"
+              target="_blank"
+              rel="noreferrer"
+              className="font-semibold text-foreground hover:text-primary"
+            >
+              Privacy policy
+            </a>
+            <a
+              href="https://www.north-shore.com.au/"
+              target="_blank"
+              rel="noreferrer"
+              className="font-semibold text-foreground hover:text-primary"
+            >
+              North Shore Australia
+            </a>
+          </div>
+        </div>
       </footer>
+
+      <nav
+        aria-label="Quick contact actions"
+        className="fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 gap-2 border-t border-border bg-card/96 px-3 pb-[calc(10px+env(safe-area-inset-bottom))] pt-2 shadow-[0_-10px_30px_rgba(12,18,25,0.12)] backdrop-blur sm:hidden"
+      >
+        <a
+          href="tel:0403474343"
+          data-track-event="phone_clicked"
+          data-track-location="mobile_bar"
+          className="inline-flex min-h-12 items-center justify-center rounded-[4px] border border-foreground bg-card px-3 text-sm font-bold text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+        >
+          Call campus
+        </a>
+        <a
+          href="#booking"
+          data-track-event="cta_clicked"
+          data-track-label="Free assessment"
+          data-track-location="mobile_bar"
+          className="inline-flex min-h-12 items-center justify-center rounded-[4px] bg-primary px-3 text-sm font-bold text-primary-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+        >
+          Free assessment
+        </a>
+      </nav>
     </main>
   );
 }

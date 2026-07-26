@@ -11,7 +11,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
+      url: `${siteUrl}/tutoring-caroline-springs`,
+      changeFrequency: "weekly",
+      priority: 1,
+    },
+    {
       url: `${siteUrl}/selective-school-preparation-caroline-springs`,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${siteUrl}/scholarship-preparation-caroline-springs`,
       changeFrequency: "weekly",
       priority: 0.9,
     },

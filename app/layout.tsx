@@ -46,8 +46,8 @@ export async function generateMetadata(): Promise<Metadata> {
       images: [
         {
           url: "/og.png",
-          width: 1536,
-          height: 864,
+          width: 1730,
+          height: 909,
           alt: "North Shore Caroline Springs free learning assessment",
         },
       ],
