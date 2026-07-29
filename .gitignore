@@ -49,3 +49,6 @@ next-env.d.ts
 /playwright-report/
 /test-results/
 /.worktrees/
+.superpowers/
+impeccable-dev.log
+impeccable-dev.err.log

@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 
+import "@fontsource-variable/dm-sans/wght.css";
+import "@fontsource/instrument-serif/400.css";
+import "@fontsource/instrument-serif/400-italic.css";
+
 import { TrackingScripts } from "@/components/analytics/tracking-scripts";
 
 import "./globals.css";

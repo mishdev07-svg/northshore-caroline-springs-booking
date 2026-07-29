@@ -1,37 +1,25 @@
 @import "tailwindcss";
 
-@font-face {
-  font-family: "Manrope";
-  font-style: normal;
-  font-weight: 200 800;
-  font-display: swap;
-  src: url("/fonts/manrope-latin-variable.woff2") format("woff2");
-}
-
-@font-face {
-  font-family: "Newsreader";
-  font-style: normal;
-  font-weight: 200 800;
-  font-display: swap;
-  src: url("/fonts/newsreader-latin-variable.woff2") format("woff2");
-}
-
 :root {
-  --background: #f3f5f7;
-  --foreground: #171a1f;
+  --background: #fffdfb;
+  --foreground: #131416;
   --card: #ffffff;
-  --card-foreground: #171a1f;
-  --primary: #d7192d;
+  --card-foreground: #131416;
+  --primary: #df1f2d;
   --primary-foreground: #ffffff;
-  --secondary: #e8edf2;
-  --secondary-foreground: #171a1f;
-  --muted: #dfe5eb;
-  --muted-foreground: #59636f;
-  --accent: #8f1421;
-  --accent-foreground: #ffffff;
-  --border: #cfd6de;
-  --input: #b8c2cc;
-  --ring: #d7192d;
+  --primary-deep: #9f1020;
+  --secondary: #eaf3ff;
+  --secondary-foreground: #131416;
+  --muted: #eef0f2;
+  --muted-foreground: #55585f;
+  --rose: #f8dde0;
+  --signal: #ffd24a;
+  --border: #cfd3d8;
+  --input: #aeb5be;
+  --ring: #df1f2d;
+  --font-display: "Instrument Serif", Georgia, serif;
+  --font-body: "DM Sans Variable", Arial, sans-serif;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @theme inline {
@@ -41,17 +29,16 @@
   --color-card-foreground: var(--card-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+  --color-primary-deep: var(--primary-deep);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
+  --color-rose: var(--rose);
+  --color-signal: var(--signal);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --font-display: "Newsreader", Georgia, serif;
-  --font-body: "Manrope", sans-serif;
 }
 
 html {
@@ -61,7 +48,7 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: "Manrope", sans-serif;
+  font-family: var(--font-body);
 }
 
 summary::-webkit-details-marker {
