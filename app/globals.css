@@ -39,6 +39,8 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --font-display: "Instrument Serif", Georgia, serif;
+  --font-body: "DM Sans Variable", Arial, sans-serif;
 }
 
 html {
