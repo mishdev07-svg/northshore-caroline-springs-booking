@@ -1,83 +1,14 @@
 import Image from "next/image";
 
+import {
+  FAQS,
+  PROGRAMS,
+  PROOF_POINTS,
+  SCHEDULE,
+  getLandingContent,
+  type LandingVariant,
+} from "./booking-content";
 import { BookingForm } from "./booking-form";
-
-const programs = [
-  {
-    number: "01",
-    title: "Prep-Year 10 tutoring",
-    description:
-      "Structured tutoring from Prep to Year 10 for stronger foundations, confidence, and study habits.",
-    href: "/tutoring-caroline-springs",
-  },
-  {
-    number: "02",
-    title: "Selective School Preparation",
-    description:
-      "Steady, structured preparation with additional workshops provided throughout the week as students get closer to the exam.",
-    href: "/selective-school-preparation-caroline-springs",
-  },
-  {
-    number: "03",
-    title: "Scholarship Preparation",
-    description:
-      "Structured guidance for families exploring scholarship pathways, without unrealistic outcome promises.",
-    href: "/scholarship-preparation-caroline-springs",
-  },
-];
-
-const proofPoints = [
-  { label: "Established", value: "Founded in 1991" },
-  {
-    label: "National network",
-    value: "Over 65 campuses",
-  },
-  {
-    label: "Teaching",
-    value: "Structured programs with qualified teachers",
-  },
-];
-
-const schedule = [
-  {
-    label: "Saturday",
-    value: "9:30am-1:00pm: Grade 3, 4, 9 and 10 classes only",
-  },
-  {
-    label: "Sunday",
-    value: "9:30am-1:00pm",
-  },
-];
-
-const faqs = [
-  {
-    question: "What happens after I request an assessment?",
-    answer:
-      "The Caroline Springs campus contacts you to confirm a suitable assessment time and asks any final questions about your child's year level and learning priorities.",
-  },
-  {
-    question: "Is it too late to join during Term 3?",
-    answer:
-      "No. Students can join during the term and pay pro-rata fees for the remaining lessons.",
-  },
-  {
-    question: "Where are classes held?",
-    answer:
-      "Classes are held at Lakeview Senior College, College Street, Caroline Springs VIC 3023. Free on-site parking is available from The Parade side near Caroline Springs Library.",
-  },
-  {
-    question: "Can my child try a class before enrolling?",
-    answer:
-      "Free trial classes are available by booking for new families who are close to enrolling. If you are unsure what support is needed, begin with the free assessment.",
-  },
-  {
-    question: "Does tutoring guarantee a selective or scholarship outcome?",
-    answer:
-      "No. These pathways are competitive and depend on many factors. North Shore provides structured preparation, qualified teachers, and consistent practice.",
-  },
-];
-
-type LandingVariant = "general" | "selective" | "scholarship";
 
 export function BookingLandingPage({
   variant = "general",
@@ -88,32 +19,7 @@ export function BookingLandingPage({
 }) {
   const isSelective = variant === "selective";
   const isScholarship = variant === "scholarship";
-  const hero = isSelective
-    ? {
-        eyebrow: "Selective School Preparation | Caroline Springs",
-        title: "Year 7 selective preparation for 2028 entry.",
-        description:
-          "Build exam-ready thinking steadily with a structured local program, qualified teachers, and additional workshops as students get closer to the exam.",
-        detail:
-          "Start with a free initial assessment. No outcome guarantees and no enrolment commitment.",
-      }
-    : isScholarship
-      ? {
-          eyebrow: "Scholarship Preparation | Caroline Springs",
-          title: "Scholarship preparation built around steady progress.",
-          description:
-            "Give your child a structured preparation pathway with qualified teachers, consistent practice, and a clear local starting point.",
-          detail:
-            "Start with a free initial assessment. No outcome guarantees and no enrolment commitment.",
-        }
-      : {
-          eyebrow: "North Shore Caroline Springs | Lakeview Senior College",
-          title: "Tutoring in Caroline Springs that starts with a clear plan.",
-          description:
-            "Book a free initial assessment to understand where your child needs support and which structured program fits best.",
-          detail:
-            "Prep-Year 10 tutoring, Selective School Preparation and Scholarship Preparation.",
-        };
+  const content = getLandingContent(variant);
 
   const pagePath =
     canonicalPath ??
@@ -122,33 +28,6 @@ export function BookingLandingPage({
       : isScholarship
         ? "/scholarship-preparation-caroline-springs"
         : "/");
-  const pathwaySection = isSelective
-    ? {
-        eyebrow: "A steady preparation pathway",
-        title: "Build the skills before exam pressure arrives.",
-        description:
-          "Year 7 is a practical time to begin structured preparation for Year 9 selective entry. Students build reasoning, reading, writing and problem-solving habits, with additional workshops provided throughout the week as the exam approaches.",
-        href: "#booking",
-        cta: "Start with the free assessment",
-      }
-    : isScholarship
-      ? {
-          eyebrow: "A practical scholarship pathway",
-          title: "Prepare consistently without outcome promises.",
-          description:
-            "Scholarship pathways are competitive. North Shore Caroline Springs provides structured guidance, qualified teachers and consistent practice so families can begin with a clear, realistic preparation plan.",
-          href: "#booking",
-          cta: "Start with the free assessment",
-        }
-      : {
-          eyebrow: "Year 7 families",
-          title: "Planning for 2028 selective entry?",
-          description:
-            "Year 7 is a practical time to begin structured preparation for Year 9 selective entry. Students build reasoning, reading, writing and problem-solving habits, with additional workshops provided throughout the week as the exam approaches.",
-          href: "/selective-school-preparation-caroline-springs",
-          cta: "Explore selective preparation",
-        };
-
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "EducationalOrganization",
@@ -177,7 +56,7 @@ export function BookingLandingPage({
     hasOfferCatalog: {
       "@type": "OfferCatalog",
       name: "Tutoring programs",
-      itemListElement: programs.map((program) => ({
+      itemListElement: PROGRAMS.map((program) => ({
         "@type": "Offer",
         itemOffered: {
           "@type": "Service",
@@ -271,13 +150,13 @@ export function BookingLandingPage({
 
           <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pb-10 pt-16 sm:px-6 sm:pb-14 lg:px-8 lg:pb-16">
             <p className="mb-4 text-xs font-bold uppercase leading-5 sm:text-sm">
-              {hero.eyebrow}
+              {content.hero.eyebrow}
             </p>
             <h1 className="max-w-3xl font-display text-[44px] font-semibold leading-none tracking-normal text-balance sm:text-[56px] lg:text-[68px]">
-              {hero.title}
+              {content.hero.title}
             </h1>
             <p className="mt-5 max-w-2xl text-base leading-7 text-white/90 sm:text-lg sm:leading-8">
-              {hero.description}
+              {content.hero.description}
             </p>
             <div className="mt-7 flex max-w-xl flex-col gap-3 sm:flex-row">
               <a
@@ -299,14 +178,14 @@ export function BookingLandingPage({
               </a>
             </div>
             <p className="mt-5 max-w-2xl text-sm leading-6 text-white/78">
-              {hero.detail}
+              {content.hero.detail}
             </p>
           </div>
         </section>
 
         <section className="border-b border-border bg-card">
           <div className="mx-auto grid max-w-7xl px-4 sm:grid-cols-3 sm:px-6 lg:px-8">
-            {proofPoints.map((point, index) => (
+            {PROOF_POINTS.map((point, index) => (
               <div
                 className={`border-b border-border py-5 sm:border-b-0 sm:px-7 sm:py-6 ${
                   index === 0 ? "sm:pl-0" : "sm:border-l"
@@ -341,7 +220,7 @@ export function BookingLandingPage({
             </div>
 
             <div className="border-t border-foreground">
-              {programs.map((program) => (
+              {PROGRAMS.map((program) => (
                 <article
                   className="grid grid-cols-[42px_1fr] gap-4 border-b border-border py-6 sm:grid-cols-[58px_1fr] sm:gap-5"
                   key={program.title}
@@ -378,24 +257,24 @@ export function BookingLandingPage({
           <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-center lg:gap-20">
             <div>
               <p className="text-xs font-bold uppercase leading-5 text-primary">
-                {pathwaySection.eyebrow}
+                {content.pathway.eyebrow}
               </p>
               <h2 className="mt-3 font-display text-[36px] font-semibold leading-[1.05] tracking-normal text-balance sm:text-[46px]">
-                {pathwaySection.title}
+                {content.pathway.title}
               </h2>
             </div>
             <div>
               <p className="max-w-2xl text-base leading-7 text-muted-foreground">
-                {pathwaySection.description}
+                {content.pathway.description}
               </p>
               <a
-                href={pathwaySection.href}
+                href={content.pathway.href}
                 data-track-event="cta_clicked"
-                data-track-label={pathwaySection.cta}
+                data-track-label={content.pathway.cta}
                 data-track-location="pathway"
                 className="mt-5 inline-flex min-h-11 items-center justify-center rounded-[4px] bg-primary px-5 text-sm font-bold text-primary-foreground transition hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
               >
-                {pathwaySection.cta}
+                {content.pathway.cta}
               </a>
             </div>
           </div>
@@ -425,13 +304,7 @@ export function BookingLandingPage({
               </div>
             </div>
             <BookingForm
-              defaultInterest={
-                isSelective
-                  ? "Selective School Preparation"
-                  : isScholarship
-                    ? "Scholarship Preparation"
-                    : "Not sure yet"
-              }
+              defaultInterest={content.defaultInterest}
               sourceLabel={variant}
             />
           </div>
@@ -464,7 +337,7 @@ export function BookingLandingPage({
             </div>
 
             <dl className="border-t border-foreground">
-              {schedule.map((item) => (
+              {SCHEDULE.map((item) => (
                 <div
                   className="grid gap-1 border-b border-foreground/20 py-4 sm:grid-cols-[100px_1fr] sm:gap-5"
                   key={item.label}
@@ -490,7 +363,7 @@ export function BookingLandingPage({
               </h2>
             </div>
             <div className="border-t border-foreground">
-              {faqs.map((faq) => (
+              {FAQS.map((faq) => (
                 <details className="group border-b border-border py-5" key={faq.question}>
                   <summary className="flex cursor-pointer list-none items-center justify-between gap-6 font-bold leading-6 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-4">
                     {faq.question}
