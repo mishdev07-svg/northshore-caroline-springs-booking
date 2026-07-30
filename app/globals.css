@@ -57,6 +57,26 @@ summary::-webkit-details-marker {
   display: none;
 }
 
+.campus-faq__indicator {
+  transition: transform 200ms var(--ease-out);
+}
+
+.campus-faq[open] .campus-faq__indicator {
+  transform: rotate(180deg);
+}
+
+.campus-faq__answer {
+  opacity: 0.82;
+  transition:
+    opacity 200ms ease,
+    color 200ms ease;
+}
+
+.campus-faq[open] .campus-faq__answer {
+  opacity: 1;
+  color: var(--foreground);
+}
+
 ::selection {
   background: color-mix(in srgb, var(--primary) 24%, transparent);
 }

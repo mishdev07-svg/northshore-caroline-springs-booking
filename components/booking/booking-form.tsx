@@ -1,7 +1,10 @@
 "use client";
 
+import { ArrowRight, Check, Phone } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
+
+import { INTERESTS, type Interest } from "./booking-content";
 
 const yearLevels = [
   "Prep",
@@ -17,20 +20,13 @@ const yearLevels = [
   "Year 10",
 ];
 
-const interests = [
-  "Prep-Year 10 tutoring",
-  "Selective School Preparation",
-  "Scholarship Preparation",
-  "Not sure yet",
-];
-
 const inputClassName =
-  "min-h-12 w-full rounded-[4px] border border-input bg-background px-3 text-base outline-none transition placeholder:text-muted-foreground/70 focus:border-ring focus:ring-2 focus:ring-ring/20";
+  "min-h-12 w-full rounded-[4px] border border-input bg-white px-3 text-base text-foreground outline-none transition-[border-color,box-shadow] duration-200 placeholder:text-muted-foreground focus:border-ring focus:ring-2 focus:ring-ring/20";
 
 type FormStatus = "idle" | "submitting" | "success" | "error";
 
 type BookingFormProps = {
-  defaultInterest?: (typeof interests)[number];
+  defaultInterest?: Interest;
   sourceLabel?: string;
 };
 
@@ -45,11 +41,14 @@ export function BookingForm({
 
   if (status === "success") {
     return (
-      <div className="rounded-[6px] bg-card p-6 text-card-foreground shadow-[0_18px_50px_rgba(12,18,25,0.18)] sm:p-8">
-        <p className="text-xs font-bold uppercase leading-5 text-primary">
+      <div className="rounded-[6px] bg-white p-6 text-card-foreground shadow-[0_24px_70px_rgba(0,0,0,0.22)] ring-1 ring-black/5 sm:p-8">
+        <div className="flex h-11 w-11 items-center justify-center rounded-full bg-secondary text-primary">
+          <Check aria-hidden="true" size={22} strokeWidth={2.4} />
+        </div>
+        <p className="mt-6 text-xs font-bold uppercase leading-5 text-primary">
           Request received
         </p>
-        <h3 className="mt-3 font-display text-3xl font-semibold leading-tight sm:text-4xl">
+        <h3 className="mt-2 font-display text-3xl font-semibold leading-tight sm:text-4xl">
           Thank you. The local team will be in touch.
         </h3>
         <p className="mt-4 text-base leading-7 text-muted-foreground">
@@ -61,8 +60,9 @@ export function BookingForm({
           href="tel:0403474343"
           data-track-event="phone_clicked"
           data-track-location="form_success"
-          className="mt-7 inline-flex min-h-12 w-full items-center justify-center rounded-[4px] bg-primary px-5 text-base font-bold text-primary-foreground transition hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+          className="mt-7 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-[4px] bg-primary px-5 text-base font-bold text-primary-foreground transition-colors duration-200 hover:bg-primary-deep focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
         >
+          <Phone aria-hidden="true" size={18} />
           Call 0403 474 343
         </a>
       </div>
@@ -170,19 +170,28 @@ export function BookingForm({
 
   return (
     <form
-      className="grid gap-4 rounded-[6px] bg-card p-5 text-card-foreground shadow-[0_18px_50px_rgba(12,18,25,0.18)] sm:p-7"
+      className="grid gap-5 rounded-[6px] bg-white p-5 text-card-foreground shadow-[0_24px_70px_rgba(0,0,0,0.22)] ring-1 ring-black/5 sm:p-7 lg:p-8"
       onSubmit={handleSubmit}
     >
-      <div>
+      <div className="border-b border-border pb-5">
         <p className="text-xs font-bold uppercase leading-5 text-primary">
           Caroline Springs campus
         </p>
-        <h3 className="mt-2 font-display text-3xl font-semibold leading-tight tracking-normal">
+        <h3 className="mt-2 font-display text-[34px] font-semibold leading-[1.05] tracking-normal sm:text-[40px]">
           Book the free assessment
         </h3>
-        <p className="mt-2 text-sm leading-6 text-muted-foreground">
+        <p className="mt-3 max-w-xl text-sm leading-6 text-muted-foreground">
           Four essentials, then the local team will contact you to confirm the
           appointment. No enrolment commitment.
+        </p>
+        <p className="mt-3 flex items-center gap-2 text-xs font-bold uppercase leading-5 text-foreground">
+          <Check
+            aria-hidden="true"
+            className="text-primary"
+            size={16}
+            strokeWidth={2.5}
+          />
+          Free initial assessment
         </p>
       </div>
 
@@ -237,7 +246,7 @@ export function BookingForm({
             defaultValue={defaultInterest}
             className={inputClassName}
           >
-            {interests.map((interest) => (
+            {INTERESTS.map((interest) => (
               <option key={interest}>{interest}</option>
             ))}
           </select>
@@ -281,7 +290,7 @@ export function BookingForm({
         />
       </div>
 
-      <label className="flex gap-3 rounded-[4px] bg-secondary p-3 text-sm leading-6 text-secondary-foreground">
+      <label className="flex gap-3 border-t border-border pt-5 text-sm leading-6 text-foreground">
         <input
           name="consent"
           type="checkbox"
@@ -296,16 +305,17 @@ export function BookingForm({
 
       {status === "error" ? (
         <p
-          className="rounded-[4px] border border-primary/30 bg-secondary p-3 text-sm font-semibold leading-6 text-foreground"
+          className="border-l-4 border-primary bg-secondary px-4 py-3 text-sm font-semibold leading-6 text-foreground"
           role="alert"
         >
           {errorMessage} Call{" "}
           <a
-            className="text-primary underline"
+            className="inline-flex items-center gap-1 font-bold text-primary underline underline-offset-2"
             href="tel:0403474343"
             data-track-event="phone_clicked"
             data-track-location="form_error"
           >
+            <Phone aria-hidden="true" size={15} />
             0403 474 343
           </a>
           .
@@ -315,21 +325,25 @@ export function BookingForm({
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="min-h-12 rounded-[4px] bg-primary px-5 py-3 text-base font-bold text-primary-foreground transition hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 active:translate-y-px disabled:cursor-wait disabled:opacity-70"
+        className="inline-flex min-h-12 items-center justify-center gap-2 rounded-[4px] bg-primary px-5 py-3 text-base font-bold text-primary-foreground transition-[background-color,transform] duration-200 hover:bg-primary-deep focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 active:translate-y-px disabled:cursor-wait disabled:opacity-70"
       >
-        {status === "submitting"
-          ? "Sending request..."
-          : "Request my free assessment"}
+        <span>
+          {status === "submitting"
+            ? "Sending request..."
+            : "Request my free assessment"}
+        </span>
+        <ArrowRight aria-hidden="true" size={18} />
       </button>
 
       <p className="text-center text-sm leading-6 text-muted-foreground">
         Prefer to speak now?{" "}
         <a
-          className="font-bold text-foreground hover:text-primary"
+          className="inline-flex items-center gap-1 font-bold text-foreground transition-colors duration-200 hover:text-primary"
           href="tel:0403474343"
           data-track-event="phone_clicked"
           data-track-location="form"
         >
+          <Phone aria-hidden="true" size={15} />
           Call 0403 474 343
         </a>
       </p>

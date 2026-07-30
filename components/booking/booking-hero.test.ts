@@ -95,10 +95,11 @@ describe("academic momentum header and hero contracts", () => {
       "<BookingHero hero={content.hero} variant={variant} />",
     );
     expect(source).not.toContain("booking-hero-v0.jpg");
-    expect(source).toContain("{PROOF_POINTS.map");
-    expect(source).toContain("<BookingForm");
-    expect(source).toContain('id="location"');
-    expect(source).toContain('aria-label="Quick contact actions"');
+    expect(source).toContain("<ProofStrip points={PROOF_POINTS} />");
+    expect(source).toContain("<AssessmentBooking");
+    expect(source).toContain("<CampusDetails");
+    expect(source).not.toContain('id="location"');
+    expect(source).not.toContain('aria-label="Quick contact actions"');
   });
 
   it("keeps the focal sequence bounded and reduced-motion complete", () => {
