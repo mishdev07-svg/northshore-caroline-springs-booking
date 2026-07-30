@@ -8,7 +8,9 @@ import {
   getLandingContent,
   type LandingVariant,
 } from "./booking-content";
+import { BookingHero } from "./booking-hero";
 import { BookingForm } from "./booking-form";
+import { CampusHeader } from "./campus-header";
 
 export function BookingLandingPage({
   variant = "general",
@@ -85,103 +87,10 @@ export function BookingLandingPage({
         Skip to content
       </a>
 
-      <p className="bg-primary px-4 py-3 text-center text-sm font-bold leading-5 text-primary-foreground">
-        Start with a free initial assessment. New students can join during term
-        with pro-rata fees for the remaining lessons.
-      </p>
-
-      <header className="border-b border-border bg-card">
-        <div className="mx-auto flex min-h-24 max-w-7xl items-center justify-between gap-3 px-4 sm:min-h-28 sm:px-6 lg:px-8">
-          <a
-            href="#top"
-            className="flex min-w-0 items-center gap-3 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-4"
-            aria-label="North Shore Coaching College Caroline Springs home"
-          >
-            <Image
-              src="/images/north-shore-logo.png"
-              alt="North Shore Coaching College"
-              width={376}
-              height={211}
-              priority
-              unoptimized
-              className="h-auto w-[138px] shrink-0 sm:w-[176px]"
-            />
-            <span className="border-l border-border pl-3 text-[11px] font-bold uppercase leading-4 text-primary sm:text-xs">
-              Caroline Springs
-              <span className="block text-foreground">Campus</span>
-            </span>
-          </a>
-
-          <div className="flex shrink-0 items-center gap-5">
-            <a
-              href="tel:0403474343"
-              data-track-event="phone_clicked"
-              data-track-location="header"
-              className="hidden text-sm font-bold transition-colors hover:text-primary focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-4 sm:inline"
-            >
-              0403 474 343
-            </a>
-            <a
-              href="#booking"
-              data-track-event="cta_clicked"
-              data-track-label="Book free assessment"
-              data-track-location="header"
-              className="inline-flex min-h-11 items-center justify-center rounded-[4px] bg-primary px-3 text-sm font-bold text-primary-foreground transition hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-4 active:translate-y-px sm:px-5"
-            >
-              <span className="sm:hidden">Book</span>
-              <span className="hidden sm:inline">Book free assessment</span>
-            </a>
-          </div>
-        </div>
-      </header>
+      <CampusHeader />
 
       <div id="main-content">
-        <section className="relative flex min-h-[520px] items-end overflow-hidden text-white md:min-h-[560px] lg:min-h-[640px]">
-          <Image
-            src="/images/booking-hero-v0.jpg"
-            alt="Primary school students working in a classroom"
-            fill
-            priority
-            unoptimized
-            sizes="100vw"
-            className="object-cover object-[57%_center] sm:object-center"
-          />
-          <div className="absolute inset-0 bg-foreground/65" />
-
-          <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pb-10 pt-16 sm:px-6 sm:pb-14 lg:px-8 lg:pb-16">
-            <p className="mb-4 text-xs font-bold uppercase leading-5 sm:text-sm">
-              {content.hero.eyebrow}
-            </p>
-            <h1 className="max-w-3xl font-display text-[44px] font-semibold leading-none tracking-normal text-balance sm:text-[56px] lg:text-[68px]">
-              {content.hero.title}
-            </h1>
-            <p className="mt-5 max-w-2xl text-base leading-7 text-white/90 sm:text-lg sm:leading-8">
-              {content.hero.description}
-            </p>
-            <div className="mt-7 flex max-w-xl flex-col gap-3 sm:flex-row">
-              <a
-                href="#booking"
-                data-track-event="cta_clicked"
-                data-track-label="Book my free assessment"
-                data-track-location="hero"
-                className="inline-flex min-h-12 items-center justify-center rounded-[4px] bg-primary px-5 text-sm font-bold text-primary-foreground transition hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-foreground active:translate-y-px"
-              >
-                Book my free assessment
-              </a>
-              <a
-                href="tel:0403474343"
-                data-track-event="phone_clicked"
-                data-track-location="hero"
-                className="inline-flex min-h-12 items-center justify-center rounded-[4px] border border-white bg-white px-5 text-sm font-bold text-foreground transition hover:bg-white/90 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-foreground active:translate-y-px"
-              >
-                Call the Caroline Springs campus
-              </a>
-            </div>
-            <p className="mt-5 max-w-2xl text-sm leading-6 text-white/78">
-              {content.hero.detail}
-            </p>
-          </div>
-        </section>
+        <BookingHero hero={content.hero} variant={variant} />
 
         <section className="border-b border-border bg-card">
           <div className="mx-auto grid max-w-7xl px-4 sm:grid-cols-3 sm:px-6 lg:px-8">
