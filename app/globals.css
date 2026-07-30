@@ -441,6 +441,11 @@ summary::-webkit-details-marker {
   transform: translateX(-50%);
 }
 
+.learning-path--confirmation {
+  width: min(100%, 420px);
+  margin-top: 28px;
+}
+
 .program-pathways {
   position: relative;
   isolation: isolate;

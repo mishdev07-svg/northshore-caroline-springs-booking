@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { ArrowLeft, Check, Phone } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Assessment Request Received | North Shore Caroline Springs",
@@ -38,8 +39,8 @@ export default function ThankYouPage() {
         </div>
       </header>
 
-      <section className="px-4 py-14 sm:px-6 sm:py-20 lg:px-8">
-        <div className="mx-auto grid max-w-5xl gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start lg:gap-16">
+      <section className="bg-secondary px-4 py-14 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
+        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start lg:gap-20">
           <div>
             <p className="text-xs font-bold uppercase leading-5 text-primary">
               Request received
@@ -59,43 +60,46 @@ export default function ThankYouPage() {
                 href="tel:0403474343"
                 data-track-event="phone_clicked"
                 data-track-location="thank_you"
-                className="inline-flex min-h-12 items-center justify-center rounded-[4px] bg-primary px-6 text-sm font-bold text-primary-foreground transition hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-4"
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-[4px] bg-primary px-6 text-sm font-bold text-primary-foreground transition-[background-color,transform] duration-200 hover:bg-primary-deep focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-4 active:translate-y-px"
               >
+                <Phone aria-hidden="true" size={18} strokeWidth={2} />
                 Call 0403 474 343
               </a>
               <Link
                 href="/"
-                className="inline-flex min-h-12 items-center justify-center rounded-[4px] border border-foreground bg-card px-6 text-sm font-bold transition hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-4"
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-[4px] border border-foreground bg-card px-6 text-sm font-bold transition-[background-color,transform] duration-200 hover:bg-white focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-4 active:translate-y-px"
               >
+                <ArrowLeft aria-hidden="true" size={18} strokeWidth={2} />
                 Return to the website
               </Link>
             </div>
           </div>
 
-          <aside className="border-t border-foreground bg-secondary px-5 py-6 sm:px-7 sm:py-8">
-            <p className="text-xs font-bold uppercase leading-5 text-primary">
+          <aside className="bg-foreground px-5 py-7 text-primary-foreground sm:px-7 sm:py-9">
+            <p className="text-xs font-bold uppercase leading-5 text-rose">
               What happens now
             </p>
-            <ol className="mt-4 border-t border-foreground/20">
-              <ConfirmationStep
-                number="1"
-                text="The Caroline Springs campus reviews your request."
-              />
-              <ConfirmationStep
-                number="2"
-                text="We contact you to confirm an assessment time."
-              />
-              <ConfirmationStep
-                number="3"
-                text="Your family receives a clear recommendation with no enrolment commitment."
-              />
+            <ol
+              className="learning-path learning-path--confirmation"
+              aria-label="Confirmation process"
+            >
+              <li>Assess</li>
+              <li>Plan</li>
+              <li>Progress</li>
             </ol>
-            <p className="mt-6 text-sm font-bold leading-6">
-              Lakeview Senior College
-            </p>
-            <p className="text-sm leading-6 text-muted-foreground">
-              College Street, Caroline Springs VIC 3023
-            </p>
+            <ol className="mt-8 border-t border-white/30">
+              <ConfirmationStep text="The Caroline Springs campus reviews your request." />
+              <ConfirmationStep text="We contact you to confirm an assessment time." />
+              <ConfirmationStep text="Your family receives a clear recommendation with no enrolment commitment." />
+            </ol>
+            <div className="mt-7 border-t border-white/30 pt-5">
+              <p className="text-sm font-bold leading-6">
+                Lakeview Senior College
+              </p>
+              <p className="text-sm leading-6 text-white/70">
+                College Street, Caroline Springs VIC 3023
+              </p>
+            </div>
           </aside>
         </div>
       </section>
@@ -104,15 +108,18 @@ export default function ThankYouPage() {
 }
 
 function ConfirmationStep({
-  number,
   text,
 }: {
-  number: string;
   text: string;
 }) {
   return (
-    <li className="grid grid-cols-[28px_1fr] gap-3 border-b border-foreground/15 py-4 text-sm font-semibold leading-6">
-      <span className="text-primary">{number}.</span>
+    <li className="grid grid-cols-[24px_1fr] gap-3 border-b border-white/20 py-4 text-sm font-semibold leading-6">
+      <Check
+        aria-hidden="true"
+        className="mt-0.5 text-signal"
+        size={18}
+        strokeWidth={2.5}
+      />
       <span>{text}</span>
     </li>
   );
