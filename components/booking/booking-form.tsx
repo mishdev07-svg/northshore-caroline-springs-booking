@@ -305,7 +305,7 @@ export function BookingForm({
 
       {status === "error" ? (
         <p
-          className="border-l-4 border-primary bg-secondary px-4 py-3 text-sm font-semibold leading-6 text-foreground"
+          className="border border-primary/30 bg-secondary px-4 py-3 text-sm font-semibold leading-6 text-foreground"
           role="alert"
         >
           {errorMessage} Call{" "}

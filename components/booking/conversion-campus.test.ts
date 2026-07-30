@@ -70,6 +70,10 @@ describe("conversion and campus contracts", () => {
     expect(source).toContain('name="consent"');
     expect(source).toContain('name="website"');
     expect(source).toContain('data-track-location="form_error"');
+    expect(source).toContain(
+      'className="border border-primary/30 bg-secondary px-4 py-3 text-sm font-semibold leading-6 text-foreground"',
+    );
+    expect(source).not.toContain("border-l-4");
   });
 
   it("extracts the campus, FAQ, footer, and mobile action surfaces", () => {
