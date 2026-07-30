@@ -124,3 +124,49 @@ forces the learning-path line to `scaleX(1)`.
   contract, while the complete settled state was visually inspected.
 - Optimized image delivery was confirmed locally through vinext and the
   production build passed; no external deployment was part of Task 3.
+
+## Fix Round 1
+
+**Status:** DONE
+**Fix commit:** `d41d1d2b35c731ed1b9e853e50936c3ad754d24d`
+**Completed:** 2026-07-30
+
+### Accessibility Fixes
+
+1. Replaced the 92% white hero description with opaque
+   `var(--primary-foreground)`. Its minimum contrast against `#DF1F2D` is
+   4.804:1.
+2. Replaced the 78% white hero detail with 96% white. Its minimum contrast
+   against `#DF1F2D` is 4.513:1, preserving the secondary hierarchy through
+   smaller type while meeting WCAG AA.
+3. Removed the overriding `aria-label` from the campus brand link. Its
+   accessible name now derives from the logo alt and visible text:
+   "North Shore Coaching College Caroline Springs Campus Lakeview Senior
+   College."
+
+The grayscale multiply image treatment can only darken the base red, so the
+solid-red ratios above are the minimum contrast values across the hero.
+
+### TDD Evidence
+
+- Added focused regressions before production changes.
+- Initial focused run: 5 tests, 2 expected failures for the overriding brand
+  label and old hero text colors.
+- After removing the brand label: 4 passed, with only the contrast regression
+  still failing.
+- After applying the compliant text colors: focused suite passed 5/5.
+- Deferred Minor review findings were intentionally left unchanged.
+
+### Verification
+
+- `npm.cmd test -- components/booking/booking-hero.test.ts`
+  - PASS: 1 file, 5 tests.
+- `npm.cmd test`
+  - PASS: 2 files, 11 tests.
+- `npm.cmd run lint`
+  - PASS: ESLint exited 0 with no findings.
+- `npm.cmd run build`
+  - PASS: all five vinext build stages completed.
+- `git diff --cached --check`
+  - PASS: no whitespace errors.
+- No local Task 3 dev-server logs were present.
