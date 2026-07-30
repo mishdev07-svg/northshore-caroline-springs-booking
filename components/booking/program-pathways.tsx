@@ -52,12 +52,12 @@ export function ProgramPathways({
           <div className="border-t border-foreground">
             {programs.map((program, index) => (
               <article
-                className="grid grid-cols-[42px_1fr] gap-4 border-b border-border py-6 sm:grid-cols-[58px_1fr] sm:gap-5"
+                className="grid grid-cols-[64px_1fr] gap-3 border-b border-border py-6 sm:grid-cols-[80px_1fr] sm:gap-5 lg:grid-cols-[96px_1fr]"
                 data-motion-kind="program"
                 data-motion-index={index}
                 key={program.title}
               >
-                <span className="program-number-mask text-sm font-bold text-primary">
+                <span className="program-number-mask font-display text-[42px] font-normal leading-none text-primary tabular-nums sm:text-[50px] lg:text-[58px]">
                   <span
                     data-motion-kind="program-number"
                     data-motion-index={index}

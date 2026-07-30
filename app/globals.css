@@ -474,6 +474,15 @@ html[data-motion="enabled"]
     transform 560ms var(--ease-out) var(--motion-delay, 0ms);
 }
 
+html[data-motion="enabled"] [data-motion-kind="program"]:focus-within,
+html[data-motion="enabled"] [data-motion-kind="program"]:focus-visible,
+html[data-motion="enabled"] [data-motion-kind="pathway"]:focus-within,
+html[data-motion="enabled"] [data-motion-kind="pathway"]:focus-visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: none;
+}
+
 .program-number-mask {
   display: block;
   overflow: hidden;
