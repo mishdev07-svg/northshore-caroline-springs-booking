@@ -14,6 +14,26 @@ function readSource(path: string): string {
   }
 }
 
+function contrastAgainstHeroRed(whiteAlpha: number): number {
+  const red = [0xdf, 0x1f, 0x2d];
+  const text = red.map((channel) => 255 * whiteAlpha + channel * (1 - whiteAlpha));
+  const luminance = (color: number[]) =>
+    color
+      .map((channel) => channel / 255)
+      .map((channel) =>
+        channel <= 0.04045
+          ? channel / 12.92
+          : ((channel + 0.055) / 1.055) ** 2.4,
+      )
+      .reduce(
+        (total, channel, index) =>
+          total + channel * [0.2126, 0.7152, 0.0722][index],
+        0,
+      );
+
+  return (luminance(text) + 0.05) / (luminance(red) + 0.05);
+}
+
 describe("academic momentum header and hero contracts", () => {
   it("preserves the campus header identity, navigation, and analytics", () => {
     const source = readSource("campus-header.tsx");
@@ -22,6 +42,10 @@ describe("academic momentum header and hero contracts", () => {
     expect(source).toContain("North Shore Coaching College");
     expect(source).toContain("Caroline Springs");
     expect(source).toContain("Campus");
+    expect(source).toContain("Lakeview Senior College");
+    expect(source).not.toMatch(
+      /className="campus-brand"\s+aria-label=/,
+    );
     expect(source).toContain("Start with a free initial assessment.");
     expect(source).toMatch(/import\s+\{[^}]*ArrowRight[^}]*Phone[^}]*\}/s);
     expect(source).toContain('<a href="#programs">Programs</a>');
@@ -105,5 +129,18 @@ describe("academic momentum header and hero contracts", () => {
     expect(source).toMatch(
       /@media \(prefers-reduced-motion: reduce\)[\s\S]*\.learning-path::before\s*\{[\s\S]*transform: scaleX\(1\);/,
     );
+  });
+
+  it("keeps normal-sized hero text at WCAG AA contrast", () => {
+    const source = readSource("../../app/globals.css");
+
+    expect(source).toMatch(
+      /\.hero-description \{[\s\S]*?color: var\(--primary-foreground\);[\s\S]*?\}/,
+    );
+    expect(source).toMatch(
+      /\.hero-detail \{[\s\S]*?color: rgb\(255 255 255 \/ 0\.96\);[\s\S]*?\}/,
+    );
+    expect(contrastAgainstHeroRed(1)).toBeGreaterThanOrEqual(4.5);
+    expect(contrastAgainstHeroRed(0.96)).toBeGreaterThanOrEqual(4.5);
   });
 });

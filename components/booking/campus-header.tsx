@@ -15,7 +15,6 @@ export function CampusHeader(): React.ReactNode {
           <a
             href="#top"
             className="campus-brand"
-            aria-label="North Shore Coaching College Caroline Springs home"
           >
             <Image
               src="/images/north-shore-logo.png"
