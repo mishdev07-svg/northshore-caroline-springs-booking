@@ -1,7 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const siteUrl =
-  "https://northshore-caroline-springs-booking.northshore-6627.chatgpt-team.site";
+import { publicSiteUrl } from "../lib/site-url";
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -10,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/admin/", "/api/", "/thank-you"],
     },
-    sitemap: `${siteUrl}/sitemap.xml`,
+    sitemap: `${publicSiteUrl}/sitemap.xml`,
   };
 }

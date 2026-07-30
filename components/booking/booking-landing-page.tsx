@@ -1,3 +1,5 @@
+import { publicSiteUrl } from "../../lib/site-url";
+
 import {
   FAQS,
   PROGRAMS,
@@ -33,7 +35,7 @@ export function BookingLandingPage({
     "@context": "https://schema.org",
     "@type": "EducationalOrganization",
     name: "North Shore Coaching College Caroline Springs",
-    url: `https://northshore-caroline-springs-booking.northshore-6627.chatgpt-team.site${pagePath}`,
+    url: `${publicSiteUrl}${pagePath}`,
     telephone: "+61 403 474 343",
     email: "carolinesprings@north-shore.com.au",
     foundingDate: "1991",

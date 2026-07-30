@@ -6,11 +6,9 @@ import "@fontsource/instrument-serif/400.css";
 import "@fontsource/instrument-serif/400-italic.css";
 
 import { TrackingScripts } from "@/components/analytics/tracking-scripts";
+import { publicSiteUrl } from "@/lib/site-url";
 
 import "./globals.css";
-
-const fallbackSiteUrl =
-  "https://northshore-caroline-springs-booking.northshore-6627.chatgpt-team.site";
 
 export async function generateMetadata(): Promise<Metadata> {
   const requestHeaders = await headers();
@@ -21,7 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
     (host?.startsWith("localhost") || host?.startsWith("127.0.0.1")
       ? "http"
       : "https");
-  const siteUrl = host ? `${protocol}://${host}` : fallbackSiteUrl;
+  const siteUrl = host ? `${protocol}://${host}` : publicSiteUrl;
 
   return {
     metadataBase: new URL(siteUrl),

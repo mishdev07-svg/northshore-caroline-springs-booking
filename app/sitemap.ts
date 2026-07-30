@@ -1,27 +1,26 @@
 import type { MetadataRoute } from "next";
 
-const siteUrl =
-  "https://northshore-caroline-springs-booking.northshore-6627.chatgpt-team.site";
+import { publicSiteUrl } from "../lib/site-url";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: siteUrl,
+      url: publicSiteUrl,
       changeFrequency: "weekly",
       priority: 1,
     },
     {
-      url: `${siteUrl}/tutoring-caroline-springs`,
+      url: `${publicSiteUrl}/tutoring-caroline-springs`,
       changeFrequency: "weekly",
       priority: 1,
     },
     {
-      url: `${siteUrl}/selective-school-preparation-caroline-springs`,
+      url: `${publicSiteUrl}/selective-school-preparation-caroline-springs`,
       changeFrequency: "weekly",
       priority: 0.9,
     },
     {
-      url: `${siteUrl}/scholarship-preparation-caroline-springs`,
+      url: `${publicSiteUrl}/scholarship-preparation-caroline-springs`,
       changeFrequency: "weekly",
       priority: 0.9,
     },
