@@ -30,12 +30,21 @@ export function BookingHero({
     <section className="academic-hero">
       <div className="hero-media-mask">
         <Image
-          src="/images/booking-hero-academic-momentum.png"
+          src="/images/booking-hero-academic-momentum.webp"
           alt="Student working through practice material"
-          fill
+          width={1536}
+          height={1024}
           priority
+          quality={90}
           sizes="100vw"
           className="hero-study-image object-cover"
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+          }}
         />
       </div>
 

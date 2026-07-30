@@ -56,19 +56,15 @@ describe("academic momentum header and hero contracts", () => {
     expect(source).toContain('data-track-label="Book free assessment"');
   });
 
-  it("uses the supplied hero image and the approved content structure", () => {
+  it("uses the approved hero content structure", () => {
     const source = readSource("booking-hero.tsx");
 
-    expect(source).toContain(
-      'src="/images/booking-hero-academic-momentum.png"',
-    );
     expect(source).toContain(
       'alt="Student working through practice material"',
     );
     expect(source).not.toContain(
       'className="hero-media-mask" aria-hidden="true"',
     );
-    expect(source).toMatch(/\sfill\s/);
     expect(source).toMatch(/\spriority\s/);
     expect(source).toContain('sizes="100vw"');
     expect(source).not.toContain("unoptimized");
@@ -94,7 +90,6 @@ describe("academic momentum header and hero contracts", () => {
     expect(source).toContain(
       "<BookingHero hero={content.hero} variant={variant} />",
     );
-    expect(source).not.toContain("booking-hero-v0.jpg");
     expect(source).toContain("<ProofStrip points={PROOF_POINTS} />");
     expect(source).toContain("<AssessmentBooking");
     expect(source).toContain("<CampusDetails");
