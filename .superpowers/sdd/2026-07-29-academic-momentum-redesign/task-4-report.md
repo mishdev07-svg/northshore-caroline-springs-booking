@@ -161,3 +161,57 @@ scrolling.
   and fully settled default state rather than an emulated visual run.
 - Vinext emitted its existing informational route-classification notice during
   build; the build completed successfully.
+
+## Fix Round 1
+
+**Status:** DONE
+**Fix commit:** `153ca7900f25e1a6c81bd113e8d0981bdecc151d`
+**Completed:** 2026-07-30
+
+### Important Review Fixes
+
+1. Replaced the small bold program numbers with editorial display markers at
+   fixed `42px`, `50px`, and `58px` breakpoint sizes. Their grid tracks now
+   remain stable at `64px`, `80px`, and `96px`, and the existing mask reveal
+   remains on each inner number span.
+2. Added final-state focus rules for program and pathway motion nodes.
+   `:focus-within` and `:focus-visible` now force `opacity: 1`,
+   `translateY(0)`, and `transition: none`, so keyboard focus never lands in
+   delayed or nearly transparent content.
+3. Left the deferred Minor `revealNode` write finding unchanged.
+
+### TDD Evidence
+
+- Added two focused regressions before production changes:
+  - rendered marker size and stable-track contract;
+  - focused motion final-state contract.
+- Initial focused run:
+  - FAIL: 1 file, 2 tests failed.
+  - Marker failure showed the old 42/58px tracks and `text-sm` marker.
+  - Focus failure showed no focus-final-state CSS block.
+- First implementation run:
+  - 1 test passed and 1 failed.
+  - The remaining failure was an over-constrained test assertion requiring
+    nonadjacent utility classes to be contiguous, while the rendered markup
+    already had the required stable tracks.
+- Corrected the test to assert each rendered track independently without
+  changing production again.
+- Final focused result:
+  - PASS: 1 file, 2 tests.
+
+### Verification
+
+- `npm.cmd test -- components/booking/program-pathways.test.ts`
+  - PASS: 1 file, 2 tests.
+- `npm.cmd test`
+  - PASS: 4 files, 17 tests.
+- `npm.cmd run lint`
+  - PASS: ESLint exited 0 with no findings.
+- `npm.cmd run build`
+  - PASS: all five vinext build stages completed.
+- `git diff --cached --check`
+  - PASS: no whitespace errors.
+- Scope review
+  - `scroll-motion-controller.tsx` has no Round 1 changes.
+  - Program hrefs, analytics attributes, mask hooks, and route rules are
+    unchanged.
