@@ -11,6 +11,8 @@ import {
 import { BookingHero } from "./booking-hero";
 import { BookingForm } from "./booking-form";
 import { CampusHeader } from "./campus-header";
+import { ProgramPathways } from "./program-pathways";
+import { ScrollMotionController } from "./scroll-motion-controller";
 
 export function BookingLandingPage({
   variant = "general",
@@ -74,6 +76,7 @@ export function BookingLandingPage({
       id="top"
       className="min-h-screen bg-background pb-[calc(76px+env(safe-area-inset-bottom))] text-foreground sm:pb-0"
     >
+      <ScrollMotionController />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -112,82 +115,11 @@ export function BookingLandingPage({
           </div>
         </section>
 
-        <section id="programs" className="px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
-          <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
-            <div>
-              <p className="text-xs font-bold uppercase leading-5 text-primary">
-                Find the right fit
-              </p>
-              <h2 className="mt-3 max-w-xl font-display text-[38px] font-semibold leading-[1.05] tracking-normal text-balance sm:text-[48px]">
-                Support that starts with understanding.
-              </h2>
-              <p className="mt-5 max-w-xl text-base leading-7 text-muted-foreground">
-                The assessment gives your family a practical starting point.
-                The Caroline Springs team then recommends the program that
-                best matches your child&apos;s year level and learning priorities.
-              </p>
-            </div>
-
-            <div className="border-t border-foreground">
-              {PROGRAMS.map((program) => (
-                <article
-                  className="grid grid-cols-[42px_1fr] gap-4 border-b border-border py-6 sm:grid-cols-[58px_1fr] sm:gap-5"
-                  key={program.title}
-                >
-                  <span className="text-sm font-bold text-primary">
-                    {program.number}
-                  </span>
-                  <div>
-                    <h3 className="font-display text-2xl font-semibold leading-7 tracking-normal">
-                      {program.title}
-                    </h3>
-                    <p className="mt-2 text-sm leading-6 text-muted-foreground sm:text-base sm:leading-7">
-                      {program.description}
-                    </p>
-                    {variant === "general" ? (
-                      <a
-                        href={program.href}
-                        data-track-event="service_link_clicked"
-                        data-track-label={program.title}
-                        data-track-location="programs"
-                        className="mt-3 inline-flex min-h-11 items-center text-sm font-bold text-primary underline decoration-primary/35 underline-offset-4 transition hover:decoration-primary focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-4"
-                      >
-                        View this program
-                      </a>
-                    ) : null}
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="border-y border-border bg-secondary px-4 py-14 sm:px-6 sm:py-18 lg:px-8">
-          <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-center lg:gap-20">
-            <div>
-              <p className="text-xs font-bold uppercase leading-5 text-primary">
-                {content.pathway.eyebrow}
-              </p>
-              <h2 className="mt-3 font-display text-[36px] font-semibold leading-[1.05] tracking-normal text-balance sm:text-[46px]">
-                {content.pathway.title}
-              </h2>
-            </div>
-            <div>
-              <p className="max-w-2xl text-base leading-7 text-muted-foreground">
-                {content.pathway.description}
-              </p>
-              <a
-                href={content.pathway.href}
-                data-track-event="cta_clicked"
-                data-track-label={content.pathway.cta}
-                data-track-location="pathway"
-                className="mt-5 inline-flex min-h-11 items-center justify-center rounded-[4px] bg-primary px-5 text-sm font-bold text-primary-foreground transition hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-              >
-                {content.pathway.cta}
-              </a>
-            </div>
-          </div>
-        </section>
+        <ProgramPathways
+          variant={variant}
+          pathway={content.pathway}
+          programs={PROGRAMS}
+        />
 
         <section id="booking" className="bg-foreground px-4 py-16 text-white sm:px-6 sm:py-20 lg:px-8 lg:py-24">
           <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
@@ -207,9 +139,21 @@ export function BookingLandingPage({
                 campus. There is no enrolment commitment.
               </p>
               <div className="mt-8 border-t border-white/25">
-                <BookingStep number="1" text="Share year level and contact details" />
-                <BookingStep number="2" text="Choose a suitable contact time" />
-                <BookingStep number="3" text="The local campus confirms the assessment" />
+                <BookingStep
+                  index={0}
+                  number="1"
+                  text="Share year level and contact details"
+                />
+                <BookingStep
+                  index={1}
+                  number="2"
+                  text="Choose a suitable contact time"
+                />
+                <BookingStep
+                  index={2}
+                  number="3"
+                  text="The local campus confirms the assessment"
+                />
               </div>
             </div>
             <BookingForm
@@ -403,9 +347,21 @@ export function BookingLandingPage({
   );
 }
 
-function BookingStep({ number, text }: { number: string; text: string }) {
+function BookingStep({
+  index,
+  number,
+  text,
+}: {
+  index: number;
+  number: string;
+  text: string;
+}) {
   return (
-    <p className="grid grid-cols-[28px_1fr] gap-3 border-b border-white/20 py-4 text-sm font-bold leading-6 sm:text-base">
+    <p
+      className="grid grid-cols-[28px_1fr] gap-3 border-b border-white/20 py-4 text-sm font-bold leading-6 sm:text-base"
+      data-motion-kind="booking-step"
+      data-motion-index={index}
+    >
       <span className="text-[#ff9aa2]">{number}.</span>
       <span>{text}</span>
     </p>
